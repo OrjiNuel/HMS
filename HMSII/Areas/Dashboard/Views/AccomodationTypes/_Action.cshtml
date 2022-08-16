@@ -1,0 +1,65 @@
+﻿@model HMSII.Areas.Dashboard.ViewModels.AccomodationTypeActionModel
+
+@if (Model != null)
+{
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">
+                @if(Model.ID > 0)
+                {
+                    <span>Edit Accomodation Type</span>
+                }
+                else
+                {
+                    <span>Create Accomodation Type</span>
+                }
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="actionForm">
+                <input type="hidden" name="ID" value="@Model.ID"/>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input class="form-control" name="Name" placeholder="Enter Accomodation Type Name" value="@Model.Name">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" name="Description" placeholder="Enter Accomodation Type Description">@Model.Description</textarea>
+                </div>
+            </form>
+
+            <div class="errorDiv">
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="actionButton" type="button" class="btn btn-primary"><i class="fa-solid fa-floppy-disk mr-1"></i>Save</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark mr-1"></i>Close</button>
+        </div>
+    </div>
+} 
+
+
+<script>
+    $("#actionButton").click(function () {
+        $.ajax({
+            url: '@Url.Action("Action", "AccomodationTypes")',
+            type: "post",
+            data: $("#actionForm").serialize()
+        })
+        .done(function (response) {
+            if (response.Success) 
+            {
+                location.reload();
+            }
+            else
+            {
+                $(".errorDiv").html(response.Message);
+            }
+        });
+    });
+</script>
+

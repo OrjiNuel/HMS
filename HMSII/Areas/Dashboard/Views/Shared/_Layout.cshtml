@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>@ViewBag.Title - HMS</title>
+
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="~/Areas/Dashboard/Content/Vendor/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Areas/Dashboard/Content/css/styles.css" rel="stylesheet" />
+
+    <script src="https://kit.fontawesome.com/adf95bd522.js" crossorigin="anonymous"></script>
+    <script src="~/Areas/Dashboard/Content/Vendor/jquery/jquery-1.10.2.min.js"></script>
+</head>
+<body>
+    <div class="d-flex" id="wrapper">
+
+        <!-- Sidebar-->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading">
+                <i class="fa-solid fa-hotel mr-1"></i> HMS
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="@Url.Action("Index", "AccomodationTypes")" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa-solid fa-building mr-1"></i> Accomodation Types
+                </a>
+                <a href="@Url.Action("Index", "AccomodationPackages")" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa-solid fa-diagram-project"></i> Accomodation Packages
+                </a>
+                <a href="@Url.Action("Index", "Accomodation")" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa-solid fa-map-pin"></i> Accomodations
+                </a>
+                <a href="@Url.Action("Index", "Role")" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa-solid fa-users mr-1"></i> Roles
+                </a>
+                <a href="@Url.Action("Index", "Users")" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa-solid fa-users mr-1"></i> Users
+                </a>
+
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        <!-- Page content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <button class="btn btn-primary" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">
+                                <i class="fa-solid fa-right-from-bracket mr-1"></i>Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- Page content-->
+            <div class="container-fluid">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    @using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+         @Html.AntiForgeryToken()
+    }
+
+    <!-- /wrapper -->
+    <script src="~/Areas/Dashboard/Content/Vendor/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+﻿@model HMSII.Areas.Dashboard.ViewModels.UserRolesModel
+
+
+@if (Model != null)
+{
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">
+                <span>User Roles</span>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            @if (Model.UserRoles != null && Model.UserRoles.Count() > 0)
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th colspan="2">
+                                Current User Roles
+                            </th>
+                    </thead>
+                    <tbody>
+                        @foreach (var role in Model.UserRoles)
+                        {
+                            <tr>
+                                <td>
+                                    @role.Name
+                                </td>
+                                <td>
+                                    <button data-href="@Url.Action("UserRoleOperation", "Users", new { userID = Model.UserID, roleID = role.Id, isDelete = true })" type="button" class="btnRoleOperation btn btn-danger"><i class="fas fa-user-times mr-1"></i>Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-warning" role="alert">
+                    This User has no role.
+                </div>
+            }
+            <hr />
+
+            @if (Model.Roles != null && Model.Roles.Count() > 0)
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th colspan="2">
+                                Assign New Roles
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var role in Model.Roles)
+                        {
+                            <tr>
+                                <td>
+                                    @role.Name
+                                </td>
+                                <td>
+                                    <button data-href="@Url.Action("UserRoleOperation", "Users", new { userID = Model.UserID, roleID = role.Id })" type="button" class="btnRoleOperation btn btn-success"><i class="fas fa-user-check mr-1"></i>Assign</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark mr-1"></i>Close</button>
+        </div>
+    </div>
+}
+
+
+<script>
+    $(".btnRoleOperation").click(function () {
+        $.ajax({
+            url: $(this).attr("data-href"),
+            type: "POST"
+        })
+        .done(function(response){
+            if(response.Success) {
+                $.ajax({
+                    url: "@Url.Action("UserRoles", "Users", new { ID = Model.UserID })",
+                })
+                .done(function (response) {
+                    $("#actionModal").html(response);
+                });
+            }
+            else {
+                alert(response.Message);
+            }
+        });
+    });
+</script>
+
+
+
+
